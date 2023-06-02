@@ -13,16 +13,23 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text("SNAKE",
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 28,
-          fontWeight: FontWeight.bold
-        ),),
-        centerTitle: true,
+      body: Container(
+        
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+
+          children: [
+            Image.asset('images/snake.png'),
+            IconButton(
+              alignment: Alignment.bottomCenter,
+              onPressed: (){}, icon: Icon(Icons.play_circle_fill_rounded,size:  80.0,color: Color.fromARGB(255, 67, 129, 69),))
+          ],
+        ),
       ),
+      
     );
   }
 }
