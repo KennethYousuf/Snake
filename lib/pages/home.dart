@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snake_game/pages/game_page.dart';
 
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
