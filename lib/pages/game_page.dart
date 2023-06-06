@@ -17,8 +17,8 @@ enum snake_directions { UP, DOWN, RIGHT, LEFT }
 
 class _GamePageState extends State<GamePage> {
   //grid dimensions
-  int rowSize = 10;
-  int totalSquares = 200;
+  int rowSize = 20;
+  int totalSquares = 600;
   // snake position
   List<int> snakePos = [0, 1, 2];
   //initial snake direction
@@ -27,7 +27,7 @@ class _GamePageState extends State<GamePage> {
   int foodPos = 45;
   //start game
   void startGame() {
-    Timer.periodic(const Duration(milliseconds: 200), (timer) {
+    Timer.periodic(const Duration(milliseconds: 250), (timer) {
       setState(() {
         moveSnake(); //snake moving
         if (gameover == true) {
@@ -161,9 +161,12 @@ class _GamePageState extends State<GamePage> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Expanded(child: Container()),
+          Expanded(child: Container(
+            
+
+          )),
           Expanded(
-              flex: 3,
+              flex: 4,
               child: GestureDetector(
                 onVerticalDragUpdate: (details) {
                   if (details.delta.dy > 0) {
