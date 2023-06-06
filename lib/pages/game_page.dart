@@ -18,7 +18,7 @@ enum snake_directions { UP, DOWN, RIGHT, LEFT }
 class _GamePageState extends State<GamePage> {
   //grid dimensions
   int rowSize = 10;
-  int totalSquares = 100;
+  int totalSquares = 200;
   // snake position
   List<int> snakePos = [0, 1, 2];
   //initial snake direction
@@ -29,7 +29,10 @@ class _GamePageState extends State<GamePage> {
   void startGame() {
     Timer.periodic(const Duration(milliseconds: 200), (timer) {
       setState(() {
-        moveSnake();
+        moveSnake(); //snake moving
+        if (gameover == true) {
+          timer.cancel();
+        }
       });
     });
   }
@@ -46,8 +49,8 @@ class _GamePageState extends State<GamePage> {
           if (snakePos.contains(newHead) || newHead >= totalSquares) {
             // check if the new head collides with the snake itself or goes out of bounds
             // game over logic
-            // You can add your own game over logic here
-            return;
+
+            return gameover();
           }
           snakePos.add(newHead); // add a head
           if (newHead == foodPos) {
@@ -69,8 +72,8 @@ class _GamePageState extends State<GamePage> {
           if (snakePos.contains(newHead) || newHead < 0) {
             // check if the new head collides with the snake itself or goes out of bounds
             // game over logic
-            // You can add your own game over logic here
-            return;
+
+            return gameover();
           }
           snakePos.add(newHead); // add a head
           if (newHead == foodPos) {
@@ -92,8 +95,8 @@ class _GamePageState extends State<GamePage> {
           if (snakePos.contains(newHead)) {
             // check if the new head collides with the snake itself
             // game over logic
-            // You can add your own game over logic here
-            return;
+
+            return gameover();
           }
           snakePos.add(newHead); // add a head
           if (newHead == foodPos) {
@@ -115,8 +118,8 @@ class _GamePageState extends State<GamePage> {
           if (snakePos.contains(newHead)) {
             // check if the new head collides with the snake itself
             // game over logic
-            // You can add your own game over logic here
-            return;
+
+            return gameover();
           }
           snakePos.add(newHead); // add a head
           if (newHead == foodPos) {
@@ -140,6 +143,16 @@ class _GamePageState extends State<GamePage> {
       newFoodPos = random.nextInt(totalSquares);
     } while (snakePos.contains(newFoodPos));
     return newFoodPos;
+  }
+
+   gameover() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Game Over"),
+          );
+        });
   }
 
   @override
