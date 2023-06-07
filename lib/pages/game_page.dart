@@ -139,6 +139,9 @@ class _GamePageState extends State<GamePage> {
   int generateNewFoodPos() {
     final random = Random();
     int newFoodPos;
+     // Calculate the valid range of positions
+  int minPos = 0;
+  int maxPos = totalSquares - 1;
     do {
       newFoodPos = random.nextInt(totalSquares);
     } while (snakePos.contains(newFoodPos));
@@ -151,9 +154,26 @@ class _GamePageState extends State<GamePage> {
         builder: (context) {
           return AlertDialog(
             title: Text("Game Over"),
+                  actions: [
+          TextButton(
+            child: const Text('Restart'),
+            onPressed: () {
+              // Reset the game state and restart the game
+              resetGame();
+              Navigator.pop(context);
+              startGame();
+            },
+          ),
+        ],
+
           );
         });
   }
+void resetGame() {
+  snakePos = [0, 1, 2]; // Reset snake position
+  currentDirection = snake_directions.RIGHT; // Reset snake direction
+  foodPos = generateNewFoodPos(); // Generate new food position
+}
 
   @override
   Widget build(BuildContext context) {
