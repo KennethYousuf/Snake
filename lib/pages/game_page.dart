@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:snake_game/blankpixel.dart';
 import 'package:snake_game/foodpixel.dart';
 import 'package:snake_game/snakepixel.dart';
@@ -25,6 +26,8 @@ class _GamePageState extends State<GamePage> {
   var currentDirection = snake_directions.RIGHT;
   // food
   int foodPos = 45;
+  
+  var currentScore =0;
   //start game
   void startGame() {
     Timer.periodic(const Duration(milliseconds: 250), (timer) {
@@ -139,51 +142,72 @@ class _GamePageState extends State<GamePage> {
   int generateNewFoodPos() {
     final random = Random();
     int newFoodPos;
-     // Calculate the valid range of positions
-  int minPos = 0;
-  int maxPos = totalSquares - 1;
+    // Calculate the valid range of positions
+    int minPos = 0;
+    int maxPos = totalSquares - 1;
     do {
       newFoodPos = random.nextInt(totalSquares);
     } while (snakePos.contains(newFoodPos));
     return newFoodPos;
   }
 
-   gameover() {
+  void snakeAteFood() {
+    setState(() {
+      currentScore;
+      currentScore++; // Increment the score when the snake eats the food
+    });
+  }
+
+  gameover() {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text("Game Over"),
-                  actions: [
-          TextButton(
-            child: const Text('Restart'),
-            onPressed: () {
-              // Reset the game state and restart the game
-              resetGame();
-              Navigator.pop(context);
-              startGame();
-            },
-          ),
-        ],
-
+            actions: [
+              TextButton(
+                child: const Text('Restart'),
+                onPressed: () {
+                  // Reset the game state and restart the game
+                  resetGame();
+                  Navigator.pop(context);
+                  startGame();
+                },
+              ),
+            ],
           );
         });
   }
-void resetGame() {
-  snakePos = [0, 1, 2]; // Reset snake position
-  currentDirection = snake_directions.RIGHT; // Reset snake direction
-  foodPos = generateNewFoodPos(); // Generate new food position
-}
+
+  void resetGame() {
+    currentScore = 0;
+    snakePos = [0, 1, 2]; // Reset snake position
+    currentDirection = snake_directions.RIGHT; // Reset snake direction
+    foodPos = generateNewFoodPos(); // Generate new food position
+  }
 
   @override
   Widget build(BuildContext context) {
+    var currentScore;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Expanded(child: Container(
-            
-
+          Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text("Current Score: ",
+              style: TextStyle(
+                color: Colors.white
+              ),),
+              Text(
+                currentScore.toString(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 38),
+              )
+            ],
           )),
           Expanded(
               flex: 4,
