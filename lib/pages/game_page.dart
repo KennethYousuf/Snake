@@ -153,7 +153,6 @@ class _GamePageState extends State<GamePage> {
 
   void snakeAteFood() {
     setState(() {
-      currentScore;
       currentScore++; // Increment the score when the snake eats the food
     });
   }
@@ -188,7 +187,7 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    var currentScore;
+  
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
