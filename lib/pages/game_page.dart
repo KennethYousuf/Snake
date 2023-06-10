@@ -26,8 +26,8 @@ class _GamePageState extends State<GamePage> {
   var currentDirection = snake_directions.RIGHT;
   // food
   int foodPos = 45;
-  
-  var currentScore =0;
+
+  var currentScore = 0;
   //start game
   void startGame() {
     Timer.periodic(const Duration(milliseconds: 250), (timer) {
@@ -59,6 +59,7 @@ class _GamePageState extends State<GamePage> {
           if (newHead == foodPos) {
             // check if the new head overlaps with the food
             // snake eats the food
+            snakeAteFood();
             foodPos = generateNewFoodPos();
           } else {
             snakePos.removeAt(0); // remove tail
@@ -82,6 +83,7 @@ class _GamePageState extends State<GamePage> {
           if (newHead == foodPos) {
             // check if the new head overlaps with the food
             // snake eats the food
+            snakeAteFood();
             foodPos = generateNewFoodPos();
           } else {
             snakePos.removeAt(0); // remove tail
@@ -105,6 +107,7 @@ class _GamePageState extends State<GamePage> {
           if (newHead == foodPos) {
             // check if the new head overlaps with the food
             // snake eats the food
+            snakeAteFood();
             foodPos = generateNewFoodPos();
           } else {
             snakePos.removeAt(0); // remove tail
@@ -128,6 +131,7 @@ class _GamePageState extends State<GamePage> {
           if (newHead == foodPos) {
             // check if the new head overlaps with the food
             // snake eats the food
+            snakeAteFood();
             foodPos = generateNewFoodPos();
           } else {
             snakePos.removeAt(0); // remove tail
@@ -152,9 +156,7 @@ class _GamePageState extends State<GamePage> {
   }
 
   void snakeAteFood() {
-    setState(() {
-      currentScore++; // Increment the score when the snake eats the food
-    });
+    currentScore++;
   }
 
   gameover() {
@@ -187,24 +189,21 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
         children: [
           Expanded(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Current Score: ",
-              style: TextStyle(
-                color: Colors.white
-              ),),
+              Text(
+                "Current Score: ",
+                style: TextStyle(color: Colors.white),
+              ),
               Text(
                 currentScore.toString(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 38),
+                style: TextStyle(color: Colors.white, fontSize: 38),
               )
             ],
           )),
