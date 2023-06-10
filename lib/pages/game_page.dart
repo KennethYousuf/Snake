@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+
 import 'package:snake_game/blankpixel.dart';
 import 'package:snake_game/foodpixel.dart';
 import 'package:snake_game/snakepixel.dart';
@@ -28,18 +28,21 @@ class _GamePageState extends State<GamePage> {
   int foodPos = 45;
 
   var currentScore = 0;
-  bool isPaused = false;
+  bool isPaused = true;
+  Timer? gameTimer;
   //start game
   void startGame() {
+    gameTimer?.cancel(); // Cancel the previous timer, if it exists
+
     Timer.periodic(const Duration(milliseconds: 250), (timer) {
-      setState(() {
-        if (!isPaused) {
-          moveSnake(); //snake moving
+       if (!isPaused) {
+        setState(() {
+          moveSnake();
           if (gameover == true) {
             timer.cancel();
           }
-        }
-      });
+        });
+      }
     });
   }
 
