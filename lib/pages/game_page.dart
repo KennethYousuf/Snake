@@ -19,7 +19,7 @@ enum snake_directions { UP, DOWN, RIGHT, LEFT }
 class _GamePageState extends State<GamePage> {
   //grid dimensions
   int rowSize = 20;
-  int totalSquares = 600;
+  int totalSquares = 400;
   // snake position
   List<int> snakePos = [0, 1, 2];
   //initial snake direction
@@ -28,13 +28,16 @@ class _GamePageState extends State<GamePage> {
   int foodPos = 45;
 
   var currentScore = 0;
+  bool isPaused = false;
   //start game
   void startGame() {
     Timer.periodic(const Duration(milliseconds: 250), (timer) {
       setState(() {
-        moveSnake(); //snake moving
-        if (gameover == true) {
-          timer.cancel();
+        if (!isPaused) {
+          moveSnake(); //snake moving
+          if (gameover == true) {
+            timer.cancel();
+          }
         }
       });
     });
@@ -194,19 +197,20 @@ class _GamePageState extends State<GamePage> {
       body: Column(
         children: [
           Expanded(
+              flex: 2,
               child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                "Current Score: ",
-                style: TextStyle(color: Colors.white),
-              ),
-              Text(
-                currentScore.toString(),
-                style: TextStyle(color: Colors.white, fontSize: 38),
-              )
-            ],
-          )),
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "Current Score: ",
+                    style: TextStyle(fontSize: 22, color: Colors.white),
+                  ),
+                  Text(
+                    currentScore.toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 38),
+                  )
+                ],
+              )),
           Expanded(
               flex: 4,
               child: GestureDetector(
@@ -242,14 +246,19 @@ class _GamePageState extends State<GamePage> {
           Expanded(
               child: Container(
             child: Center(
-              child: MaterialButton(
-                child: Text('PLAY'),
-                color: Colors.amber,
-                onPressed: () {
-                  startGame();
-                },
+                child: IconButton(
+              icon: Icon(
+                isPaused ? Icons.play_arrow_sharp : Icons.pause,
+                color: Colors.white,
+                size: 34,
               ),
-            ),
+              onPressed: () {
+                setState(() {
+                  startGame();
+                  isPaused = !isPaused; // Toggle the pause state
+                });
+              },
+            )),
           ))
         ],
       ),
